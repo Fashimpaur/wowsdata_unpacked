@@ -3,29 +3,29 @@ name = "starter-fastapi-api"
 version = "0.1.0"
 description = "FastAPI starter API with Postgres, OAuth scaffolding, and unittest tests"
 authors = [
-  { name = "Your Name", email = "you@example.com" }
+    { name = "Your Name", email = "you@example.com" }
 ]
 requires-python = ">=3.10"
 readme = "README.md"
 
 dependencies = [
-  "fastapi>=0.115.0",
-  "uvicorn[standard]>=0.30.0",
-  "pydantic-settings>=2.4.0",
-  "SQLAlchemy>=2.0.0",
-  "psycopg[binary]>=3.2.0",
-  "alembic>=1.13.0",
-  "python-multipart>=0.0.9",
-  "authlib>=1.3.1",
-  "passlib[bcrypt]>=1.7.4",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "pydantic-settings>=2.4.0",
+    "SQLAlchemy>=2.0.0",
+    "psycopg[binary]>=3.2.0",
+    "alembic>=1.13.0",
+    "python-multipart>=0.0.9",
+    "authlib>=1.3.1",
+    "passlib[bcrypt]>=1.7.4",
 ]
 
 [project.optional-dependencies]
 dev = [
-  "httpx>=0.27.0",
-  "coverage>=7.6.0",
-  "ruff>=0.6.9",
-  "mypy>=1.11.0",
+    "httpx>=0.27.0",
+    "coverage>=7.6.0",
+    "ruff>=0.6.9",
+    "mypy>=1.11.0",
 ]
 
 [tool.uv]
