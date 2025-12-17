@@ -25,7 +25,10 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . .
 
+# Ensure startup script is executable
+RUN chmod +x ./start.sh
+
 EXPOSE 8000
 
-CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./start.sh"]
 

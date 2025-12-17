@@ -7,21 +7,33 @@ services:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: ${DB_NAME:-appdb}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-appdb}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     ports:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
 
   api:
     build: .
     container_name: fastapi_app
     env_file:
       - .env
+    environment:
+      # Override DB host for container-to-container networking
+      DB_HOST: db
+      # Provide a DATABASE_URL for Alembic
+      DATABASE_URL: postgresql+psycopg://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:${DB_PORT:-5432}/${DB_NAME:-appdb}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8000:8000"
-    command: uvicorn src.app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: ./start.sh
 
 volumes:
   pg_data:
