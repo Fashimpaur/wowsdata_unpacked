@@ -20,3 +20,8 @@ def oauth_login() -> JSONResponse:
 def oauth_callback() -> JSONResponse:
     # In a real app, exchange code for tokens and issue session/JWT
     return JSONResponse({"message": "OAuth callback not yet implemented"}, status_code=501)
+
+
+@router.get("/load/{game_directory}")
+def get_game_params(game_directory):
+    return JSONResponse({"'message": f"Game directory is {game_directory}"}, status_code=200)
