@@ -177,3 +177,44 @@ npm run test:e2e
     - B) First feature: `GET /api/v1/ships` with stub data + React page consuming it.
     - C) Dev ergonomics: add PowerShell helper scripts for common tasks.
 
+# Session Log — 2025-12-17
+
+## Progress today
+
+- Performed a clean-slate Docker build to measure cold build time with `.dockerignore` in place.
+- Brought up services via Compose; verified that Postgres pulls and starts.
+- Resolved connectivity issue from pgAdmin 4: connection timeouts were due to using the wrong host port (8432). The
+  database is published on `5432` per `docker-compose.yml`.
+- Confirmed successful connection from desktop pgAdmin to the containerized Postgres using:
+    - Host: `localhost`
+    - Port: `5432`
+    - User: from `.env` (`DB_USER`, default `postgres`)
+    - Password: from `.env` (`DB_PASSWORD`, default `postgres`)
+    - Database: from `.env` (`DB_NAME`, default `appdb`)
+
+## Useful commands and notes
+
+- Bring up services (from `apps/api`):
+  ```
+  docker compose up -d --build
+  docker ps  # verify api_postgres is Up (healthy)
+  ```
+- Test DB connection from desktop (PowerShell with defaults):
+  ```
+  psql "postgresql://postgres:postgres@localhost:5432/appdb" -c "SELECT now();"
+  ```
+- If you prefer a different host port (e.g., 8432), change mapping under `db` in `apps/api/docker-compose.yml`:
+  ```
+  ports:
+    - "8432:5432"
+  ```
+  Then run `docker compose up -d` and connect to port 8432 in pgAdmin.
+
+## Stopping point
+
+- Postgres container is healthy and reachable from the desktop via the correct port (5432).
+- Next session options:
+    1) Set up SQLAlchemy models and Alembic `target_metadata` (Database foundation).
+    2) Implement stub endpoint `GET /api/v1/ships` and wire a simple React consumer page.
+    3) Add helper PowerShell scripts (compose up/down, logs, test, etc.) for convenience.
+
