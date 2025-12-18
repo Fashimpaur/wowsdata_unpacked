@@ -1,0 +1,12 @@
+.git
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+.mypy_cache
+.venv
+venv
+apps/web/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
